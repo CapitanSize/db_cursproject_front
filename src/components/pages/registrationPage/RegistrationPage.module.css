@@ -1,0 +1,23 @@
+.alert{
+    position: fixed;
+    top: 8%;
+    left: 5%;
+    z-index: 1000;
+}
+
+.switcher{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 20px 0;
+}
+.switcherText{
+    font-weight: bold;
+    font-size: 30px;
+    font-family: sans-serif;
+}
+
+.footerText{
+    font-size: 20px;
+    margin-top: 15px;
+}

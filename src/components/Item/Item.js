@@ -9,7 +9,8 @@ export const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
     width: '70vw',
     maxWidth: '800px',
-    boxShadow: theme.shadows[3]
-
-
+    boxShadow: theme.shadows[3],
+    fontFamily: 'sans-serif',
+    fontSize: '25px',
+    lineHeight: '40px',
 }));

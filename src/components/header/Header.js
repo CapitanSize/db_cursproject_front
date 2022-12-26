@@ -13,11 +13,12 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import {Search, SearchIconWrapper, StyledInputBase} from "./styled";
 import RenderMobileMenu from "./renders/renderMobileMenu";
 import RenderMenu from "./renders/renderMenu";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import Grid from "@mui/material/Grid";
-import {ORDERS_ROUTE} from "../../routes/consts";
+import {ORDERS_ROUTE, PROFILE_ROUTE} from "../../routes/consts";
+import {logout} from "../../redux/App/appSlice";
 
 const Header = () => {
 
@@ -25,12 +26,14 @@ const Header = () => {
         const auth = useSelector(state => state.app.isAuth)
         const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(false);
         const id = useSelector(state => state.app.user.id)
+        const dispatch = useDispatch()
+        const navigate = useNavigate()
 
         const isMenuOpen = anchorEl;
         const isMobileMenuOpen = mobileMoreAnchorEl;
 
         const handleProfileMenuOpen = () => {
-            setAnchorEl(true);
+            navigate(PROFILE_ROUTE + '/' + id)
         };
 
         const handleMobileMenuClose = () => {
@@ -45,8 +48,6 @@ const Header = () => {
         const handleMobileMenuOpen = () => {
             setMobileMoreAnchorEl(true);
         };
-
-        const navigate = useNavigate()
 
         return (
             <Box sx={{ flexGrow: 1 }} >
@@ -79,16 +80,12 @@ const Header = () => {
                             </>
                             :
                             <>
-                                <Box sx={{ display: { xs: 'none', md: 'flex', marginRight: '20px' } }}>
-                                    <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                                        <Badge badgeContent={1} color="error">
-                                            <MailIcon />
-                                        </Badge>
-                                    </IconButton>
+                                <Box sx={{ display: { xs: 'none', md: 'flex', marginRight: '40px' } }}>
                                     <IconButton
                                         size="large"
                                         aria-label="show 17 new notifications"
                                         color="inherit"
+                                        style={{marginRight: '20px'}}
                                     >
                                         <Badge badgeContent={1} color="error">
                                             <NotificationsIcon />
@@ -101,9 +98,14 @@ const Header = () => {
                                         aria-haspopup="true"
                                         onClick={handleProfileMenuOpen}
                                         color="inherit"
+                                        style={{marginRight: '20px'}}
                                     >
                                         <AccountCircle />
                                     </IconButton>
+                                    <Button variant={'outlined'} color={'error'} onClick={() => {
+                                        dispatch(logout())
+                                        navigate('/login')
+                                    }}>Выйти</Button>
                                 </Box>
                                 <Box sx={{ display: { xs: 'flex', md: 'none', marginRight: '20px' } }}>
                                     <IconButton

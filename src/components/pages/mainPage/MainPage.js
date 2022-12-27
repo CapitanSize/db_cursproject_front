@@ -12,14 +12,6 @@ import {
     getOrderTypesThunk
 } from "../../../redux/App/appSlice";
 
-export const buttons = [
-    'Все',
-    'Деталь',
-    'Чертеж',
-    'Механизм',
-    'Аппарат',
-]
-
 const MainPage = () => {
 
     const [type, setType] = useState(null)
@@ -29,7 +21,6 @@ const MainPage = () => {
 
     useEffect(() => {
         dispatch(getOrders())
-        dispatch(getOrderTypesThunk())
     }, [])
 
     useEffect(() => {
@@ -43,9 +34,9 @@ const MainPage = () => {
 
     return (
         <Grid>
-            <div>
+            <Grid xs={7}>
                 <OrderList orders={orders} />
-            </div>
+            </Grid>
             <Grid className={styles.radioWrapper}>
                 <RadioButtonGroup types={types} type={type} setType={setType}/>
             </Grid>

@@ -15,9 +15,6 @@ const RadioButtonGroup = (props) => {
                 {props?.types && props?.types.map((item, index) =>
                     <FormControlLabel  value={item} key={index} control={<Radio onChange={e => props.setType(e.target.value)} value={item}  color={'success'} />} label={item} />
                 )}
-                {/*<FormControlLabel value="female" control={<Radio />} label="Female" />
-                <FormControlLabel value="male" control={<Radio />} label="Male" />
-                <FormControlLabel value="other" control={<Radio />} label="Other" />*/}
             </RadioGroup>
         </FormControl>
     );

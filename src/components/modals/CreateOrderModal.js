@@ -15,7 +15,6 @@ import styles from './CreateOrderModal.css'
 import Grid from "@mui/material/Grid";
 import {useDispatch, useSelector} from "react-redux";
 import MenuItem from "@mui/material/MenuItem";
-import {buttons} from "../pages/mainPage/MainPage";
 import {createOrderThunk} from "../../redux/App/appSlice";
 
 const CreateOrderModal = (props) => {
@@ -26,7 +25,7 @@ const CreateOrderModal = (props) => {
     const [orderPrice, setOrderPrice] = useState('')
     const [orderFiles, setOrderFiles] = useState([])
     const [orderType, setOrderType] = useState('')
-    const types = useSelector(state => state.app.orderTypes.types)
+    const types = useSelector(state => state?.app?.orderTypes?.types)
     const [error, setError] = useState(null)
 
     const formSubmit = () => {
@@ -36,11 +35,18 @@ const CreateOrderModal = (props) => {
                 description: orderDescription,
                 type: orderType,
                 price: orderPrice,
-                files: '123',
+                files: urlCode(orderFiles[0]),
             }
             dispatch(createOrderThunk(order))
         } else {
             setError('Что-то пошло не так! Убедитесь, что все поля заполнены.')
+        }
+    }
+
+    const urlCode = (url) => {
+        if (url) {
+            const coder = /:/gi;
+            return String(url.split('blob:')[1].replace(coder, '%'))
         }
     }
 
@@ -49,7 +55,8 @@ const CreateOrderModal = (props) => {
         setOrderFiles([...orderFiles, files])
     }
 
-    console.log(orderFiles[0])
+    console.log(urlCode(orderFiles[0]))
+
 
     const style = {
         position: 'absolute',
@@ -94,13 +101,14 @@ const CreateOrderModal = (props) => {
                     </Grid>
                     <Grid sx={itemStyle}>
                         <FormControl style={{width: '210px'}} >
-                            <InputLabel>Тип</InputLabel>
+                            <InputLabel color={'success'}>Тип</InputLabel>
                             <Select
                                 value={orderType}
                                 label="Тип"
                                 onChange={(e) => setOrderType(e.target.value)}
+                                color={'success'}
                             >
-                                {types.map((type, index) => {
+                                {types && types.map((type, index) => {
                                     return <MenuItem key={index} value={type}>{type}</MenuItem>
                                 })}
                             </Select>

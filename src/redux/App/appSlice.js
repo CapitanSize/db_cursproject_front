@@ -44,6 +44,11 @@ export const appSlice = createSlice({
             state.isAuth = action.payload.success
             state.userType = action.payload.userType
             localStorage.setItem('token', action.payload.token)
+            localStorage.setItem('userType', action.payload.userType)
+        },
+        refreshLogin: (state, action) => {
+            state.user = action.payload.user
+            state.isAuth = true
         },
         registration: (state, action) => {
             state.registrationSuccess = action.payload.response
@@ -60,9 +65,6 @@ export const appSlice = createSlice({
             state.registrationError = null
             state.loginSuccess = null
             state.loginError = null
-        },
-        refreshAccessToken: (state) => {
-            const token = localStorage.getItem('token')
         },
         changeProfilePhoto: (state, action) => {
             state.user.photo_url = action.payload.photo
@@ -270,6 +272,28 @@ export const getOrderTypesThunk = () => async (dispatch) => {
     }
 }
 
+export const refreshLoginThunk = () => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('token')
+        const userType = localStorage.getItem('userType')
+        const response = await axios.get(`${url}/${userType}/refresh`, {
+            headers: {
+                authorisation: token
+            }
+        })
+        dispatch(refreshLogin({
+            user: response.data
+        }))
+        if (response.status === 401){
+            dispatch(logout())
+        }
+    } catch (e) {
+        if (e.response.status === 401){
+            dispatch(logout())
+        }
+    }
+}
+
 
 
 export const {
@@ -285,7 +309,8 @@ export const {
     getCustomerOrders,
     setExecutorDoneOrders,
     createOrder,
-    getOrderTypes
+    getOrderTypes,
+    refreshLogin
 } = appSlice.actions
 
 export default appSlice.reducer

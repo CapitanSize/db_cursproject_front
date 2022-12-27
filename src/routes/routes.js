@@ -34,14 +34,14 @@ export const privateRoutes = [
         path: ORDERS_ROUTE,
         element: <MainPage/>
     },
-    {
+    /*{
         path: LOGIN_ROUTE,
         element: <LoginPage/>
     },
     {
         path: AUTH_ROUTE,
         element: <RegistrationPage/>
-    },
+    },*/
     {
         path: ORDER_ROUTE + '/:id',
         element: <OrderPage/>

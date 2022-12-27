@@ -6,10 +6,11 @@ import {Avatar, Button, Divider} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import RateSlider from "../../RateSlider/RateSlider";
 import plug from '../../../static/images/plug.jpg'
-import {changeProfilePhoto, getExecutorDoneOrdersThunk} from "../../../redux/App/appSlice";
+import {changeProfilePhoto, customerOrdersListThunk, getExecutorDoneOrdersThunk} from "../../../redux/App/appSlice";
 import ReviewList from "../../Review/ReviewList";
 import {useNavigate} from "react-router-dom";
 import CreateOrderModal from "../../modals/CreateOrderModal";
+import CustomerOrdersList from "../customerOrdersList/customerOrdersList";
 
 const ProfilePage = () => {
 
@@ -34,6 +35,7 @@ const ProfilePage = () => {
 
     useEffect(() => {
         dispatch(getExecutorDoneOrdersThunk())
+        dispatch(customerOrdersListThunk())
     }, [])
 
 
@@ -90,7 +92,8 @@ const ProfilePage = () => {
                 </Grid>
             </Grid>
                 <Grid item xs={3.5} className={styles.profileReviews}>
-                    <ReviewList/>
+                    {userType === 'executor' && <ReviewList/>}
+                    {userType === 'customer' && <CustomerOrdersList/>}
                 </Grid>
             </Grid>
         </Grid>

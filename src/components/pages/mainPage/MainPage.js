@@ -7,18 +7,13 @@ import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {
+    fetchOrdersByTypeThunk,
+    fetchOrdersThunk,
     getOrders,
     getOrdersByType,
     getOrderTypesThunk
 } from "../../../redux/App/appSlice";
-
-export const buttons = [
-    'Все',
-    'Деталь',
-    'Чертеж',
-    'Механизм',
-    'Аппарат',
-]
+import {Button} from "@mui/material";
 
 const MainPage = () => {
 
@@ -28,26 +23,33 @@ const MainPage = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getOrders())
-        dispatch(getOrderTypesThunk())
-    }, [])
-
-    useEffect(() => {
-        type && dispatch(getOrdersByType({type: type}))
+        type && dispatch(fetchOrdersByTypeThunk(type))
     }, [type])
 
-    console.log(types)
+    useEffect(() => {
+        dispatch(fetchOrdersThunk())
+    }, [])
+
+    const buttonClick = () => {
+        setType(null)
+        dispatch(fetchOrdersThunk())
+    }
+
+    console.log(type)
 
 
 
 
     return (
         <Grid>
-            <div>
+            <Grid>
                 <OrderList orders={orders} />
-            </div>
+            </Grid>
             <Grid className={styles.radioWrapper}>
                 <RadioButtonGroup types={types} type={type} setType={setType}/>
+                <Grid style={{marginTop: '10px', marginRight: '10px'}}>
+                    <Button onClick={buttonClick} variant={'outlined'} color={'success'}>Отменить выбор</Button>
+                </Grid>
             </Grid>
         </Grid>
     );

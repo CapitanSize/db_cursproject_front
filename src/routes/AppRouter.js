@@ -1,16 +1,20 @@
 import React, {useEffect} from 'react';
-import {Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes, useNavigate, Navigate} from "react-router-dom";
 import {privateRoutes, publicRoutes} from "./routes";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchOrdersThunk, getOrderTypesThunk, refreshLoginThunk} from "../redux/App/appSlice";
 
 const AppRouter = () => {
 
     const isAuth = useSelector(state => state.app.isAuth)
+    const dispatch = useDispatch()
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        !isAuth && navigate('/login')
+        dispatch(refreshLoginThunk())
+        dispatch(fetchOrdersThunk())
+        dispatch(getOrderTypesThunk())
     }, [])
 
 
@@ -18,13 +22,20 @@ const AppRouter = () => {
         <Routes>
             {isAuth
                 ?
+                <>
+                {
                 privateRoutes.map((route) =>
                     <Route key={route.path} path={route.path} element={route.element}/>
-                )
+                )}
+                    <Route path={'*'} element={<Navigate to={'/'} replace/>}  />
+                </>
                 :
-                publicRoutes.map((route) =>
-                    <Route key={route.path} path={route.path} element={route.element}/>
-                )
+                <>
+                {publicRoutes.map((route) =>
+                        <Route key={route.path} path={route.path} element={route.element}/>
+                    )}
+                    <Route path={'*'} element={<Navigate to={'/login'} replace/>}  />
+                </>
             }
         </Routes>
     );

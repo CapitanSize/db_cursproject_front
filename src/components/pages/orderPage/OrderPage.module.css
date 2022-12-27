@@ -4,3 +4,21 @@
     align-items: center;
     margin-top: 100px;
 }
+
+.orderName{
+    font-size: 30px;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 10px 40px 10px 40px;
+}
+
+.orderDescription{
+    overflow: hidden;
+    max-height: 200px;
+    -webkit-line-clamp: 5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+
+}

@@ -6,31 +6,40 @@ import styles from './MainPage.module.css'
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {getOrders, getOrdersByType} from "../../../redux/App/appSlice";
+import {
+    getOrders,
+    getOrdersByType,
+    getOrderTypesThunk
+} from "../../../redux/App/appSlice";
+
+export const buttons = [
+    'Все',
+    'Деталь',
+    'Чертеж',
+    'Механизм',
+    'Аппарат',
+]
 
 const MainPage = () => {
 
     const [type, setType] = useState(null)
     const orders = useSelector(state => state.app.orders)
+    const types = useSelector(state => state?.app?.orderTypes?.types)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getOrders())
+        dispatch(getOrderTypesThunk())
     }, [])
 
     useEffect(() => {
         type && dispatch(getOrdersByType({type: type}))
     }, [type])
 
-    const buttons = [
-        'Все',
-        'Деталь',
-        'Чертеж',
-        'Механизм',
-        'Аппарат',
-    ]
+    console.log(types)
 
-    console.log(type)
+
+
 
     return (
         <Grid>
@@ -38,7 +47,7 @@ const MainPage = () => {
                 <OrderList orders={orders} />
             </div>
             <Grid className={styles.radioWrapper}>
-                <RadioButtonGroup buttons={buttons} type={type} setType={setType}/>
+                <RadioButtonGroup types={types} type={type} setType={setType}/>
             </Grid>
         </Grid>
     );

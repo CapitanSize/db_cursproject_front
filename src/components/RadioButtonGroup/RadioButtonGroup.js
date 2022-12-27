@@ -10,10 +10,9 @@ const RadioButtonGroup = (props) => {
             <FormLabel color={'success'} id="demo-radio-buttons-group-label">Типы заказов</FormLabel>
             <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue={props?.buttons[0]}
                 name="radio-buttons-group"
             >
-                {props?.buttons.map((item, index) =>
+                {props?.types && props?.types.map((item, index) =>
                     <FormControlLabel  value={item} key={index} control={<Radio onChange={e => props.setType(e.target.value)} value={item}  color={'success'} />} label={item} />
                 )}
                 {/*<FormControlLabel value="female" control={<Radio />} label="Female" />

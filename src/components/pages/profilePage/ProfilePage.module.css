@@ -8,8 +8,8 @@
 }
 
 .profileCard{
-    margin-top: 80px;
-    width: 800px;
+    margin-top: 12vh;
+    width: 40vw;
     min-height: 800px;
     border-radius: 10px;
     padding-top: 20px;
@@ -52,4 +52,25 @@
 }
 .uploadButton{
     margin-top: 10px;
+}
+
+.CreateOrderButton{
+
+}
+
+.watchMyOrdersButton{
+
+}
+
+.profileButtons{
+    margin-top: 12vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profileReviews{
+    margin-top: 12vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

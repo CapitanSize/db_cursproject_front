@@ -6,6 +6,8 @@ import axios from 'axios'
 
 const initialState = {
     orders: [],
+    executorDoneOrders: [],
+    orderTypes: [],
     user: {},
     userType: null,
     isAuth: false,
@@ -77,6 +79,18 @@ export const appSlice = createSlice({
             state.currentCustomerOrders = action.payload.orders
             state.error = action.payload.error
         },
+        setExecutorDoneOrders: (state, action) => {
+            state.executorDoneOrders = action.payload.orders
+            state.error = action.payload.error
+        },
+        createOrder: (state, action) => {
+          state.orders.push(action.payload.order)
+          state.error = action.payload.error
+        },
+        getOrderTypes: (state, action) => {
+            state.orderTypes = action.payload.types
+            state.error = action.payload.error
+        }
     }
 })
 
@@ -195,8 +209,83 @@ export const getCustomerOrdersThunk = (id) => async (dispatch) => {
     }
 }
 
+export const getExecutorDoneOrdersThunk = () => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`${url}/executor/order/done/`, {
+            headers: {
+                authorisation : token
+            }
+        })
+        dispatch(setExecutorDoneOrders({
+            orders: response.data,
+            error: null,
+        }))
+    } catch (e) {
+        dispatch(setExecutorDoneOrders({
+            orders: [],
+            error: 'При загрузке ваших заказов произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
+
+export const createOrderThunk = (order) => async (dispatch) => {
+    try{
+        const token = localStorage.getItem('token')
+        const response = await axios.post(`${url}/customer/order?title=${order.title}&description=${order.description}&files=${order.files}&price=${order.price}&type=${order.type}`,
+            '', {
+            headers: {
+                authorisation: token,
+            }
+            })
+        dispatch(createOrder({
+            order: response.data,
+            error: null,
+        }))
+    } catch (e) {
+        dispatch(createOrder({
+            order: null,
+            error: 'При создании заказа произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
+
+export const getOrderTypesThunk = () => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`${url}/executor/types`, {
+            headers: {
+                authorisation : token
+            }
+        })
+        dispatch(getOrderTypes({
+            types: response.data,
+            error: null
+        }))
+    } catch (e) {
+        dispatch(getOrderTypes({
+            types: [],
+            error: 'При загрузке типов произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
 
 
-export const {getOrders, login, registration, removeLoginError, logout, changeProfilePhoto, getOrdersByType, getCustomer, getExecutor, getCustomerOrders} = appSlice.actions
+
+export const {
+    getOrders,
+    login,
+    registration,
+    removeLoginError,
+    logout,
+    changeProfilePhoto,
+    getOrdersByType,
+    getCustomer,
+    getExecutor,
+    getCustomerOrders,
+    setExecutorDoneOrders,
+    createOrder,
+    getOrderTypes
+} = appSlice.actions
 
 export default appSlice.reducer

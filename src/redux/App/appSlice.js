@@ -22,6 +22,7 @@ const initialState = {
     currentCustomerOrders: [],
     currentExecutor: null,
     error: null,
+    executorPerformedOrders: [],
 
 }
 
@@ -101,6 +102,10 @@ export const appSlice = createSlice({
         customerOrderList: (state, action) => {
             state.customerPublishedOrders = action?.payload?.orders
             state.error = action?.payload?.error
+        },
+        performExecutor: (state, action) => {
+            state.executorPerformedOrders.push(action.payload.order)
+            state.error = action.payload.error
         },
     }
 })
@@ -340,6 +345,27 @@ export const fetchOneOrderThunk = (id) => async (dispatch) => {
     }
 }
 
+export const performExecutorThunk = (id) => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('token')
+        const response = await axios.post(`${url}/executor/order/${id}/performed`, '', {
+            headers: {
+                authorisation : token
+            }
+        })
+        dispatch(performExecutor({
+            order: {id: id},
+            error: null
+        }))
+    } catch (e) {
+        dispatch(performExecutor({
+            order: {},
+            error: 'При загрузке заказа произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
+
+
 
 
 export const {
@@ -358,7 +384,8 @@ export const {
     getOrderTypes,
     refreshLogin,
     customerOrderList,
-    getOneOrder
+    getOneOrder,
+    performExecutor
 } = appSlice.actions
 
 export default appSlice.reducer

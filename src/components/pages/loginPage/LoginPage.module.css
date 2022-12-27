@@ -1,0 +1,32 @@
+.loginForm{
+    margin-top: 100px;
+    background-color: lightgray;
+    width: 70vw;
+    min-width: 500px;
+    box-shadow: 2px 2px 2px 2px;
+}
+.wrapper{
+    flex-direction: column;
+
+}
+.switcher{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 20px 0;
+}
+.switcherText{
+    font-weight: bold;
+    font-size: 20px;
+    font-family: sans-serif;
+}
+.alert{
+    position: absolute;
+    top: 8%;
+    left: 5%;
+    z-index: 1000;
+}
+.footerText{
+    font-size: 20px;
+    margin-top: 15px;
+}

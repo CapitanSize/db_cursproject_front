@@ -1,0 +1,32 @@
+.bottomWrapper{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 20px 0 20px;
+}
+
+.orderName{
+    font-size: 30px;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 10px 40px 10px 40px;
+}
+
+.orderType{
+
+}
+
+.orderDescription{
+    overflow: hidden;
+    max-height: 200px;
+    -webkit-line-clamp: 5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+
+}
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

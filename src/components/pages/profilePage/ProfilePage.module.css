@@ -8,8 +8,8 @@
 }
 
 .profileCard{
-    margin-top: 80px;
-    width: 800px;
+    margin-top: 12vh;
+    width: 40vw;
     min-height: 800px;
     border-radius: 10px;
     padding-top: 20px;
@@ -44,4 +44,33 @@
 .rateSlider{
     padding-top: 25px;
     padding-bottom: 20px;
+}
+.emptyAvatar{
+    width: 20vw;
+    border-radius: 50%;
+    opacity: 50%;
+}
+.uploadButton{
+    margin-top: 10px;
+}
+
+.CreateOrderButton{
+
+}
+
+.watchMyOrdersButton{
+
+}
+
+.profileButtons{
+    margin-top: 12vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profileReviews{
+    margin-top: 12vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

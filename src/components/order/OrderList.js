@@ -2,16 +2,9 @@ import React, {useEffect} from 'react';
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import OrderItem from "./OrderItem";
-import {useDispatch, useSelector} from "react-redux";
-import {getOrders} from "../../redux/App/appSlice";
 
-const OrderList = () => {
-const orders = useSelector(state => state.app.orders)
-const dispatch = useDispatch()
+const OrderList = (props) => {
 
-    useEffect(() => {
-        dispatch(getOrders())
-    }, [])
 
 
     return (
@@ -31,7 +24,7 @@ const dispatch = useDispatch()
                 display: 'flex',
                 maxWidth: '850px'
             }}>
-                {orders && orders.map((order) =>
+                {props?.orders.map((order) =>
                     <OrderItem
                         key={order.id}
                         id={order.id}

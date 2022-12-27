@@ -1,0 +1,21 @@
+.boxWrapper{
+    margin-top: 100px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-grow: 1;
+    margin-bottom: 100px;
+}
+
+.gridWrapper{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    max-width: 850px;
+}
+
+.emptyOrders{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

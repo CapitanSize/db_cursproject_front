@@ -7,7 +7,7 @@ import styles from './OrderItem.module.css'
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 
-const OrderItem = ({id, description, money, type, title}) => {
+const OrderItem = ({id, description, price, type, title}) => {
 
     const navigate = useNavigate()
     const userType = useSelector(state => state.app.userType)
@@ -22,15 +22,15 @@ const OrderItem = ({id, description, money, type, title}) => {
                 <Grid className={styles.orderName}>{title}</Grid>
                 <Divider/>
             <Grid>
-                    Тип зказа: {type}
+                    Тип заказа: {type}
             </Grid>
-                <Divider/>
-            <Grid className={styles.orderDescription}>Описание заказа: {description}</Grid>
+                {/*<Divider/>
+            <Grid className={styles.orderDescription}>Описание заказа: {description}</Grid>*/}
                 {userType === 'executor' &&
                     <>
                     <Divider/>
                 <Grid className={styles.bottomWrapper}>
-                    <Grid>Ориентировочная сумма: <h3>{money}</h3></Grid>
+                    <Grid>Ориентировочная сумма: <h3>{price}</h3></Grid>
                     <Grid className={styles.button}>
                         <Button
                             style={{maxHeight: '50px'}}

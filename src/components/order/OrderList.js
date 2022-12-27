@@ -24,13 +24,13 @@ const OrderList = (props) => {
                 display: 'flex',
                 maxWidth: '850px'
             }}>
-                {props?.orders.map((order) =>
+                {props.orders && props?.orders.map((order) =>
                     <OrderItem
                         key={order.id}
                         id={order.id}
                         title={order.title}
                         description={order.description}
-                        money={order.money}
+                        price={order.price}
                         type={order.type}
                     />
                 )}

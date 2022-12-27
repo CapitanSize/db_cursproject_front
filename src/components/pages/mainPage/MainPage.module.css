@@ -3,3 +3,24 @@
     top: 10vh;
     left: 10vw;
 }
+@media screen and (max-width: 1500px){
+    .radioWrapper{
+        left: 1vw;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: white;
+}
+
+::-webkit-scrollbar-track {
+    border: 1px solid #2e7d32;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb{
+    color: #343434;
+    background-color: #343434;
+    border-radius: 5px;
+
+}

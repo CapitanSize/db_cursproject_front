@@ -38,6 +38,7 @@ const CreateOrderModal = (props) => {
                 files: urlCode(orderFiles[0]),
             }
             dispatch(createOrderThunk(order))
+            props.onClose()
         } else {
             setError('Что-то пошло не так! Убедитесь, что все поля заполнены.')
         }

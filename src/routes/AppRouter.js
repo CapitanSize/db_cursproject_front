@@ -8,6 +8,7 @@ const AppRouter = () => {
 
     const isAuth = useSelector(state => state.app.isAuth)
     const dispatch = useDispatch()
+    const userType = useSelector(state => state?.app?.userType)
 
     const navigate = useNavigate()
 

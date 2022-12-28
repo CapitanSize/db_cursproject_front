@@ -20,9 +20,11 @@ const initialState = {
     fetchingOrdersError: null,
     currentCustomer: null,
     currentCustomerOrders: [],
-    currentExecutor: null,
+    currentExecutor: {},
     error: null,
     executorPerformedOrders: [],
+    executorsList: [],
+    customerResponse: [],
 
 }
 
@@ -107,6 +109,14 @@ export const appSlice = createSlice({
             state.executorPerformedOrders.push(action.payload.order)
             state.error = action.payload.error
         },
+        getAllExecutors: (state, action) => {
+          state.executorsList = action.payload.executorsList
+          state.error = action.payload.error
+        },
+        fetchCustomerResponse: (state, action) => {
+            state.customerResponse = [...state.customerResponse, action.payload.response]
+            state.error = action.payload.error
+        }
     }
 })
 
@@ -197,7 +207,12 @@ export const getCustomerThunk = (id) => async (dispatch) => {
 
 export const getExecutorThunk = (id) => async (dispatch) => {
     try {
-        const response = await axios.get(`${url}/customer/executor/${id}`)
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`${url}/customer/executor/${id}`, {
+            headers: {
+                authorisation: token
+            }
+        })
         dispatch(getExecutor({
             executor: response.data,
             error: null
@@ -365,6 +380,46 @@ export const performExecutorThunk = (id) => async (dispatch) => {
     }
 }
 
+export const fetchAllExecutors = () => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`${url}/customer/executors/list`, {
+            headers: {
+                authorisation : token
+            }
+        })
+        dispatch(getAllExecutors({
+            executorsList: response.data,
+            error: null
+        }))
+    } catch (e) {
+        dispatch(getAllExecutors({
+            executorsList: [],
+            error: 'При загрузке заказа произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
+
+export const fetchCustomerResponseThunk = (orderId) => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`${url}/executor/customer_response?order_id=${orderId}`, {
+            headers: {
+                authorisation : token
+            }
+        })
+        dispatch(fetchCustomerResponse({
+            response: response.data,
+            error: null
+        }))
+    } catch (e) {
+        dispatch(fetchCustomerResponse({
+            executorsList: [],
+            error: 'При загрузке ответа произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
+
 
 
 
@@ -385,7 +440,9 @@ export const {
     refreshLogin,
     customerOrderList,
     getOneOrder,
-    performExecutor
+    performExecutor,
+    getAllExecutors,
+    fetchCustomerResponse,
 } = appSlice.actions
 
 export default appSlice.reducer

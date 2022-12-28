@@ -48,12 +48,12 @@ const ProfilePage = () => {
                         {userType === 'executor' ?
                             <Button onClick={clickHandler} variant={'outlined'} color={'success'}>Просмотр выполенных заказов</Button>
                             :
-                            <>
+                            <Grid style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
                                 <Button onClick={() => setOpen(prevState => !prevState)} variant={'outlined'} color={'success'}>Сделать заказ</Button>
                                 <CreateOrderModal open={open} onClose={() => setOpen(false)}>
-
                                 </CreateOrderModal>
-                            </>}
+                                <Button style={{marginTop: '10px'}} onClick={() => navigate('/allExecutors')} variant={'outlined'} color={'success'}>Открыть список исполнителей</Button>
+                            </Grid>}
                     </Grid>
                 </Grid>
             <Grid className={styles.profileCard}>

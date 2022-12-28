@@ -28,6 +28,7 @@ const MainPage = () => {
 
     useEffect(() => {
         dispatch(fetchOrdersThunk())
+        dispatch(getOrderTypesThunk())
     }, [])
 
     const buttonClick = () => {

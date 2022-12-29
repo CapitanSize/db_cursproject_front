@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {getExecutorThunk} from "../../../../redux/App/appSlice";
+import {approveExecutorThunk, getExecutorThunk, rejectExecutorThunk} from "../../../../redux/App/appSlice";
 import styles from "../ProfilePage.module.css";
 import Grid from "@mui/material/Grid";
 import {Button, Divider} from "@mui/material";
@@ -18,6 +18,7 @@ const ExecutorPage = () => {
     useEffect(() => {
         dispatch(getExecutorThunk(id))
     }, [])
+
 
 
     return (

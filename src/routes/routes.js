@@ -7,6 +7,9 @@ import OrderPage from "../components/pages/orderPage/OrderPage";
 import MyOrdersPage from "../components/pages/myOrdersPage/MyOrdersPage";
 import AllExecutorsPage from "../components/pages/allExecutorsPage/AllExecutorsPage";
 import ExecutorPage from "../components/pages/profilePage/executorProfilePage/ExecutorPage";
+import ExecutorsNotificationPage
+    from "../components/pages/profilePage/ExecutorsNotificationPage/ExecutorsNotificationPage";
+import InProgressOrdersPage from "../components/pages/InProgressOrders/InProgressOrdersPage";
 
 export const publicRoutes = [
     /*{
@@ -57,7 +60,15 @@ export const privateRoutes = [
         element: <AllExecutorsPage/>
     },
     {
-        path: 'executor/:id',
+        path: '/executor/:id',
         element: <ExecutorPage/>
+    },
+    {
+        path: '/executor/:id/:orderId',
+        element: <ExecutorsNotificationPage/>
+    },
+    {
+        path: '/progressOrders',
+        element: <InProgressOrdersPage/>
     }
 ]

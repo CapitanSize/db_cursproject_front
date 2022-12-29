@@ -6,7 +6,12 @@ import {Avatar, Button, Divider} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import RateSlider from "../../RateSlider/RateSlider";
 import plug from '../../../static/images/plug.jpg'
-import {changeProfilePhoto, customerOrdersListThunk, getExecutorDoneOrdersThunk} from "../../../redux/App/appSlice";
+import {
+    changeProfilePhoto,
+    customerOrdersListThunk,
+    fetchExecutorInProgressOrdersThunk,
+    getExecutorDoneOrdersThunk
+} from "../../../redux/App/appSlice";
 import ReviewList from "../../Review/ReviewList";
 import {useNavigate} from "react-router-dom";
 import CreateOrderModal from "../../modals/CreateOrderModal";
@@ -19,6 +24,7 @@ const ProfilePage = () => {
     const id = useSelector(state => state.app.user.id)
     const avatar = useSelector(state => state?.app?.user?.photo_url)
     const name = useSelector(state => state.app.user.name)
+    const second_name = useSelector(state => state.app.user.second_name)
     const email = useSelector(state => state.app.user.email)
     const rate = useSelector(state => state?.app?.user?.rate)
     const userType = useSelector(state => state?.app?.userType)
@@ -33,9 +39,15 @@ const ProfilePage = () => {
         navigate('/myOrders')
     }
 
+    const clickHandlerProcess = () => {
+        navigate('/progressOrders')
+    }
+
+
     useEffect(() => {
         dispatch(getExecutorDoneOrdersThunk())
         dispatch(customerOrdersListThunk())
+        userType === 'executor' && dispatch(fetchExecutorInProgressOrdersThunk())
     }, [])
 
 
@@ -46,7 +58,10 @@ const ProfilePage = () => {
                 <Grid item xs={3.5} className={styles.profileButtons}>
                     <Grid>
                         {userType === 'executor' ?
-                            <Button onClick={clickHandler} variant={'outlined'} color={'success'}>Просмотр выполенных заказов</Button>
+                            <Grid style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+                                <Button style={{marginBottom: '20px'}} onClick={clickHandler} variant={'outlined'} color={'success'}>Просмотр выполенных заказов</Button>
+                                <Button onClick={clickHandlerProcess} variant={'outlined'} color={'success'}>Просмотр текущих заказов</Button>
+                            </Grid>
                             :
                             <Grid style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
                                 <Button onClick={() => setOpen(prevState => !prevState)} variant={'outlined'} color={'success'}>Сделать заказ</Button>
@@ -82,7 +97,7 @@ const ProfilePage = () => {
                 }
                 <Grid className={styles.info}>
                     <Divider >Имя</Divider>
-                    <Typography className={styles.text}>{name}</Typography>
+                    <Typography className={styles.text}>{name} {second_name}</Typography>
                     <Divider >Email</Divider>
                     <Typography className={styles.text}>{email}</Typography>
                     <Divider >Телефон</Divider>

@@ -18,7 +18,7 @@ const CustomerOrdersList = () => {
     return (
         <Grid item style={{marginTop: '10vh', overflowY: 'scroll', maxHeight: '80vh'}} >
             {orders && orders.map((order) => {
-                return <CustomerOrderItem order={order}/>
+                return <CustomerOrderItem key={order.id} order={order}/>
             })}
         </Grid>
     );

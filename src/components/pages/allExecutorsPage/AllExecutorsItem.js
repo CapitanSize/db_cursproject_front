@@ -21,7 +21,7 @@ const AllExecutorsItem = ({executor}) => {
 
 
     return (
-        <Grid item onClick={handleClick} style={{cursor: 'pointer'}} >
+        <Grid item >
             <Item>
                 <Grid className={styles.orderName}>Исполнитель</Grid>
                 <Divider/>
@@ -38,11 +38,10 @@ const AllExecutorsItem = ({executor}) => {
                                         style={{maxHeight: '50px'}}
                                         variant={'outlined'}
                                         color={'success'}
-                                        onClick={chooseHandler}
+                                        onClick={handleClick}
                                     >
-                                        Выбрать исполнителя
+                                        Открыть профиль исполнителя
                                     </Button>
-                                <ChooseModal open={open} onClose={() => setOpen(false)} name={executor.name} secondName={executor.second_name}/>
                             </Grid>
                         </Grid>
                     </>

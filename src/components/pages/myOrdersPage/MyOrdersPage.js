@@ -19,24 +19,30 @@ const MyOrdersPage = () => {
     const clickHandler = (id) => {
         navigate(`/order/${id}`)
     }
+    const click = () => {
+        navigate(`/`)
+    }
 
     useEffect(() => {
         dispatch(getExecutorDoneOrdersThunk())
     }, [])
 
+
     return (
         <Box className={styles.boxWrapper}>
             <Grid className={styles.gridWrapper}>
-            {orders.length > 0 && orders.map((order) => {
-                return <MyOrderItem order={order} key={order.id} clickHandler={clickHandler}/>
+            {orders?.length > 0 && orders.map((order) => {
+                return <MyOrderItem order={order} key={order?.id} clickHandler={clickHandler}/>
             })}
-                {orders.length === 0 &&
-                <Grid style={styles.emptyOrders}>
-                    <Typography>У Вас пока нет выполенных заказов.</Typography>
-                        <br/>
-                    <Typography>Выполните свой первый заказ!</Typography>
+                {(orders && !(orders?.length > 0)) &&
+                <Grid className={styles.emptyOrders}>
                     <Grid>
-                        <Button variant={'outlined'} color={'success'}>Выполнить</Button>
+                        <Typography style={{fontSize: '30px', fontFamily: 'sans-serif'}}>У Вас пока нет выполенных заказов.</Typography>
+                            <br/>
+                        <Typography style={{fontSize: '30px', fontFamily: 'sans-serif'}}>Выполните свой первый заказ!</Typography>
+                    </Grid>
+                    <Grid>
+                        <Button onClick={click} style={{marginTop: '20px'}} variant={'outlined'} color={'success'}>Выполнить</Button>
                     </Grid>
                 </Grid>
                 }

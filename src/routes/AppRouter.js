@@ -2,7 +2,12 @@ import React, {useEffect} from 'react';
 import {Route, Routes, useNavigate, Navigate} from "react-router-dom";
 import {privateRoutes, publicRoutes} from "./routes";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchOrdersThunk, getOrderTypesThunk, refreshLoginThunk} from "../redux/App/appSlice";
+import {
+    fetchCustomerNotificationsThunk, fetchExecutorInProgressOrdersThunk,
+    fetchOrdersThunk,
+    getOrderTypesThunk,
+    refreshLoginThunk
+} from "../redux/App/appSlice";
 
 const AppRouter = () => {
 
@@ -16,6 +21,7 @@ const AppRouter = () => {
         dispatch(refreshLoginThunk())
         dispatch(fetchOrdersThunk())
         dispatch(getOrderTypesThunk())
+        dispatch(fetchCustomerNotificationsThunk())
     }, [])
 
 

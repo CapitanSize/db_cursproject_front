@@ -7,6 +7,7 @@ import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {
+    fetchCustomerNotificationsThunk,
     fetchOrdersByTypeThunk,
     fetchOrdersThunk,
     getOrders,
@@ -29,6 +30,7 @@ const MainPage = () => {
     useEffect(() => {
         dispatch(fetchOrdersThunk())
         dispatch(getOrderTypesThunk())
+        dispatch(fetchCustomerNotificationsThunk())
     }, [])
 
     const buttonClick = () => {
@@ -36,7 +38,6 @@ const MainPage = () => {
         dispatch(fetchOrdersThunk())
     }
 
-    console.log(type)
 
 
 

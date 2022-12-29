@@ -6,6 +6,7 @@ import axios from 'axios'
 
 const initialState = {
     orders: [],
+    statuses: ['search', 'progress', 'done', 'review'],
     executorDoneOrders: [],
     customerPublishedOrders: [],
     currentOrder: {},
@@ -25,7 +26,13 @@ const initialState = {
     executorPerformedOrders: [],
     executorsList: [],
     customerResponse: [],
-
+    customerNotifications: [],
+    executorNotifications: [],
+    approvedExecutors: [],
+    executorPerformances: [],
+    customerCurrentOrderStatus: null,
+    executorCurrentOrderStatus: null,
+    executorInProgressOrders: [],
 }
 
 export const appSlice = createSlice({
@@ -115,6 +122,37 @@ export const appSlice = createSlice({
         },
         fetchCustomerResponse: (state, action) => {
             state.customerResponse = [...state.customerResponse, action.payload.response]
+            state.error = action.payload.error
+        },
+        fetchCustomerNotifications: (state, action) => {
+            state.customerNotifications = action.payload.customerNotifications
+            state.error = action.payload.error
+        },
+        approvedExecutors: (state, action) => {
+            state.approvedExecutors.push(action.payload.executor)
+            state.error = action.payload.error
+        },
+        setErrorNull: (state) => {
+            state.error = null
+        },
+        getExecutorPerformances: (state, action) => {
+            state.executorPerformances = action.payload.response
+            state.error = action.payload.error
+        },
+        fetchOrderStatusCustomer: (state, action) => {
+            state.customerCurrentOrderStatus = action.payload.status
+            state.error = action.payload.error
+        },
+        changeOrderStatusCustomer: (state, action) => {
+          state.currentOrderStatus = action.payload.status
+          state.error = action.payload.error
+        },
+        fetchOrderStatusExecutor: (state, action) => {
+            state.executorCurrentOrderStatus = action.payload.status
+            state.error = action.payload.error
+        },
+        fetchExecutorInProgressOrders: (state, action) => {
+            state.executorInProgressOrders = action.payload.orders
             state.error = action.payload.error
         }
     }
@@ -420,6 +458,162 @@ export const fetchCustomerResponseThunk = (orderId) => async (dispatch) => {
     }
 }
 
+export const fetchCustomerNotificationsThunk = () => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`${url}/customer/executor_performances`, {
+            headers: {
+                authorisation : token
+            }
+        })
+        dispatch(fetchCustomerNotifications({
+            customerNotifications: response.data,
+            error: null
+        }))
+    } catch (e) {
+        dispatch(fetchCustomerNotifications({
+            customerNotifications: [],
+            error: 'При загрузке ответа произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
+
+export const approveExecutorThunk = (orderId, executorId) => async (dispatch) => {
+    try{
+        const token = localStorage.getItem('token')
+        const response = await axios.post(`${url}/customer/order/${orderId}/approve?executor_id=${executorId}`, '', {
+            headers: {
+                authorisation: token
+            }
+        })
+    } catch (e) {
+    }
+}
+
+export const rejectExecutorThunk = (orderId, executorId) => async (dispatch) => {
+    try{
+        const token = localStorage.getItem('token')
+        const response = await axios.post(`${url}/customer/order/${orderId}/reject?order_id=${orderId}&executor_id=${executorId}`, '', {
+            headers: {
+                authorisation: token
+            }
+        })
+    } catch (e) {
+    }
+}
+
+export const getExecutorPerfrmancesThunk = () => async (dispatch) => {
+    try{
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`${url}/executor/performances`,  {
+            headers: {
+                authorisation: token
+            }
+        })
+        dispatch(getExecutorPerformances({
+            response: response.data,
+            error: null,
+        }))
+    } catch (e) {
+        dispatch(getExecutorPerformances({
+            response: [],
+            error: 'При загрузке откликов произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
+
+export const deleteOrderThunk = (orderId) => async (dispatch) => {
+    try{
+        const token = localStorage.getItem('token')
+        const response = await axios.delete(`${url}/customer/order/${orderId}/delete`,  {
+            headers: {
+                authorisation: token
+            }
+        })
+    } catch (e) {
+    }
+}
+
+export const fetchCustomerOrderStatusThunk = (orderId) => async (dispatch) => {
+    try{
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`${url}/customer/order/${orderId}/status`,  {
+            headers: {
+                authorisation: token
+            }
+        })
+        dispatch(fetchOrderStatusCustomer({
+            status: response.data,
+            error: null
+        }))
+    } catch (e) {
+        dispatch(fetchOrderStatusCustomer({
+            status: null,
+            error: 'При загрузке статуса заказа произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
+
+export const changeOrderStatusThunk = (orderId, status) => async (dispatch) => {
+    try{
+        const token = localStorage.getItem('token')
+        const response = await axios.post(`${url}/customer/order/${orderId}/status/update?status=${status}`,'',  {
+            headers: {
+                authorisation: token
+            }
+        })
+        dispatch(changeOrderStatusCustomer({
+            status: response.data,
+            error: null
+        }))
+    } catch (e) {
+        dispatch(changeOrderStatusCustomer({
+            status: null,
+            error: 'При загрузке статуса заказа произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
+
+export const fetchExecutorOrderStatusThunk = (orderId) => async (dispatch) => {
+    try{
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`${url}/executor/order/${orderId}/status`,  {
+            headers: {
+                authorisation: token
+            }
+        })
+        dispatch(fetchOrderStatusExecutor({
+            status: response.data,
+            error: null
+        }))
+    } catch (e) {
+        dispatch(fetchOrderStatusExecutor({
+            status: null,
+            error: 'При загрузке статуса заказа произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
+
+export const fetchExecutorInProgressOrdersThunk = () => async (dispatch) => {
+    try{
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`${url}/executor/order/in_progress/`,  {
+            headers: {
+                authorisation: token
+            }
+        })
+        dispatch(fetchExecutorInProgressOrders({
+            orders: response.data,
+            error: null
+        }))
+    } catch (e) {
+        dispatch(fetchExecutorInProgressOrders({
+            orders: [],
+            error: 'При загрузке заказов произошла ошибка попробуйте еще раз позднее',
+        }))
+    }
+}
+
 
 
 
@@ -443,6 +637,13 @@ export const {
     performExecutor,
     getAllExecutors,
     fetchCustomerResponse,
+    fetchCustomerNotifications,
+    setErrorNull,
+    getExecutorPerformances,
+    fetchOrderStatusCustomer,
+    changeOrderStatusCustomer,
+    fetchOrderStatusExecutor,
+    fetchExecutorInProgressOrders
 } = appSlice.actions
 
 export default appSlice.reducer

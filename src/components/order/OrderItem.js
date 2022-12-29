@@ -14,8 +14,8 @@ const OrderItem = ({id, description, price, type, title}) => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const userType = useSelector(state => state.app.userType)
-    const performedOrders = useSelector(state => state.app.executorPerformedOrders)
+    const userType = useSelector(state => state?.app?.userType)
+    const performedOrders = useSelector(state => state?.app?.executorPerformedOrders)
     const [open, setOpen] = useState(false)
 
     const handleClick = () => {
@@ -44,7 +44,7 @@ const OrderItem = ({id, description, price, type, title}) => {
                 <Grid className={styles.bottomWrapper}>
                     <Grid>Ориентировочная сумма: <h3>{price}</h3></Grid>
                     <Grid className={styles.button}>
-                        {performedOrders.find(order => order.id === id) ?
+                        {performedOrders.find(order => order?.id === id) ?
                             <Typography>Уже откликнулись</Typography>
                         :
                             <Button
